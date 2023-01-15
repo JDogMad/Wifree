@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "247477705947",
+    "project_id": "wifree-2-91167",
+    "storage_bucket": "wifree-2-91167.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:247477705947:android:93d724d98219f814d340fe",
+        "android_client_info": {
+          "package_name": "be.ehb.wifree_2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "247477705947-bi6i2ahp2fliefi2t41jgq4s4abj5s0n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBNTyWX8Ga6RMrhOYwwa3WEt5T6vo9kyk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "247477705947-bi6i2ahp2fliefi2t41jgq4s4abj5s0n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

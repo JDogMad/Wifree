@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">WiFree</string>
+    <string name="c1">Stay</string>
+    <string name="c2">Connected</string>
+    <string name="c3">Everywhere</string>
+    <string name="btn_start">Start the search</string>
+
+    <string name="ic_maps_title">Maps</string>
+    <string name="ic_maps_description" translatable="false">Icon of location (gray)</string>
+
+    <string name="ic_speedtest_title" translatable="false">Speedtest</string>
+    <string name="ic_speedometer_description" translatable="false">Icon of speedometer</string>
+
+    <string name="ic_settings_title">Settings</string>
+    <string name="ic_settings_description" translatable="false">Icon of settings</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_settings">Settings</string>
+
+
+    <string name="action_settings">Settings</string>
+    <string name="first_fragment_label">Label</string>
+
+    <string name="title_login">Login</string>
+    <string name="txt_login">Login</string>
+    <string name="app_welcomeBack">Welcome back</string>
+    <string name="app_sub_welcomeBack">Continue the search</string>
+    <string name="app_question_register">"Don't have an account? "</string>
+    <string name="txt_register">Register</string>
+
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="app_question_login">Already have an account?</string>
+    <string name="app_welcome">Welcome</string>
+    <string name="app_sub_welcomeToTheApp">Let\'s start the search</string>
+    <string name="hint_username">Username</string>
+    <string name="txt_greeting" translatable="false">Hi username</string>
+    <string name="txt_welcome">Welcome</string>
+    <string name="txt_username">Username</string>
+    <string name="txt_email">Email</string>
+    <string name="txt_password">Password</string>
+    <string name="txt_settings">Settings</string>
+    <string name="app_settings_sub">Settings management</string>
+    <string name="title_newMarker">New place</string>
+    <string name="subTitle_newMarker">Save your places</string>
+    <string name="marker_title">Title</string>
+    <string name="marker_description">Description</string>
+    <string name="btn_marker" translatable="false">Save</string>
+    <string name="subTitle_dashboard">Check out the places</string>
+    <string name="app_home_sub">Check out the free wifi</string>
+    <string name="placeholder" translatable="false">Placeholder</string>
+    <string name="ic_dashboard_title" translatable="false">Dashboard</string>
+    <string name="subTitle_preferences">Preferences</string>
+    <string name="title_languages">Language</string>
+    <string name="subTitle_app" translatable="false">App</string>
+    <string name="btn_feedback" translatable="false">"Give your feedback "</string>
+    <string name="btn_terms">Terms and conditions</string>
+    <string name="btn_privacy">Privacy</string>
+    <string name="btn_logout">Logout</string>
+    <string name="select_language">Select the language you want</string>
+
+</resources>
