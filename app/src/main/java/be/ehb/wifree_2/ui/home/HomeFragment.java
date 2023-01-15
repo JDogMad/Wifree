@@ -189,7 +189,6 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onPause(){
-
         super.onPause();
         binding.mapView2.onPause();
     }
