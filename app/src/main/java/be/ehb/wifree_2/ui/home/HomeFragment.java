@@ -223,7 +223,7 @@ public class HomeFragment extends Fragment {
                         System.out.println("User is null");
                     }
                 } else {
-                    // Handle error
+                    System.out.println("error");
                 }
             }
         });
