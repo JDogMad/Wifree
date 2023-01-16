@@ -130,12 +130,6 @@ public class NewWifiFragment extends Fragment implements LocationListener {
             longitude = location.getLongitude();
             latLng = new LatLng(latitude, longitude);
             System.out.println("Test de locatie: " + latLng);
-        } else {
-            FragmentManager fragmentManager = getFragmentManager();
-            if (fragmentManager != null) {
-                fragmentManager.beginTransaction().replace(R.id.const_new_wifi, new DashboardFragment()).commit();
-            }
-            Toast.makeText(getContext(), "Please make sure your location is on.", Toast.LENGTH_LONG).show();
         }
     }
 
