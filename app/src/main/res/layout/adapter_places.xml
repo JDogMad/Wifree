@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView android:id="@+id/cardv_places"
+<androidx.cardview.widget.CardView xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardv_places"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -24,27 +25,16 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.90" />
 
-        <LinearLayout
-            android:id="@+id/app_shape_2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/adapter_shape1"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toStartOf="@+id/img_helper_2"
-            app:layout_constraintHeight_percent="0.2"
-            app:layout_constraintStart_toStartOf="@+id/img_helper_1"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/marker_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
             android:text="@string/placeholder"
             android:textAlignment="center"
-            android:textColor="@color/white_2"
+            android:textColor="@color/black"
             android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/img_helper_2"
             app:layout_constraintStart_toStartOf="@+id/img_helper_1"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,10 +44,9 @@
             android:layout_height="65dp"
             android:text="@string/placeholder"
             android:textAlignment="center"
-            android:textColor="@color/white_2"
+            android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="@+id/app_shape_2"
-            app:layout_constraintEnd_toEndOf="@+id/app_shape_2"
+            app:layout_constraintEnd_toStartOf="@+id/img_helper_2"
             app:layout_constraintStart_toStartOf="@+id/img_helper_1"
             app:layout_constraintTop_toBottomOf="@+id/marker_title" />
 
