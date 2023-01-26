@@ -30,32 +30,41 @@ public class DashboardFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        //binding with Dashboard layout
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        // Search for the button and sets a onclick listener
         btn_new_marker = root.findViewById(R.id.btn_new_marker);
         btn_new_marker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NewWifiFragment newWifiFragment = new NewWifiFragment();
-                FragmentManager fragmentManager = getChildFragmentManager();
-                fragmentManager.popBackStack(); //Removing the DashboardFragment from the Backstack
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.const_dashboard, newWifiFragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                NewWifiFragment newWifiFragment = new NewWifiFragment();  // new Fragment
+                FragmentManager fragmentManager = getChildFragmentManager();  // getting the fragmentManager of the activity
+                fragmentManager.popBackStack(); // removing the fragment from backstack, user can't go back
+
+                // Search for the action button
+                FloatingActionButton addbutton = getView().findViewById(R.id.btn_new_marker);
+                addbutton.setVisibility(View.GONE); // visibilty is set to gone -> is not shown in the new fragment
+
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction(); // start transaction
+                fragmentTransaction.replace(R.id.const_dashboard, newWifiFragment); // transaction action to change the layout
+                fragmentTransaction.addToBackStack(null); // the new fragment to backstack -> user can navigate back
+                fragmentTransaction.commit(); // the new fragment is shown
             }
         });
 
-        HomeViewModel viewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
-        PlacesAdapter adapter = new PlacesAdapter();
+        HomeViewModel viewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class); // new viewmodel
+        PlacesAdapter adapter = new PlacesAdapter(); // new adapter
+        // new layoutmanager that will display the list vertically
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        binding.rcPlaces.setAdapter(adapter);
-        binding.rcPlaces.setLayoutManager(layoutManager);
+        binding.rcPlaces.setAdapter(adapter); // sets adapter to rcPlaces (my recyclerview)
+        binding.rcPlaces.setLayoutManager(layoutManager); // sets layoutmanager to rcPlaces (my recyclerview)
+        // the viewmodel uses the method getAllLoactionsDB to return a list of places
         viewModel.getAllLocationsDB().observe(getViewLifecycleOwner(), new Observer<List<WifiPlace>>() {
             @Override
             public void onChanged(List<WifiPlace> places) {
-                adapter.addItems(places);
+                adapter.addItems(places); // the places are added to the adapter
             }
         });
 

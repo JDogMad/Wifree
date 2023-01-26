@@ -58,17 +58,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(){
-        // Search the activity for the two textfields
+        // Search the activity for the two text-fields
         txt_email = findViewById(R.id.txt_email);
         txt_password = findViewById(R.id.txt_password);
 
+        // get the text of the text-fields
         email = txt_email.getText().toString();
         password = txt_password.getText().toString();
 
         // Check to see if any field is left open
-        // if so show them an error message
         if(email.isEmpty() || password.isEmpty()){
-            Toast.makeText(this, "Please fill in all fields ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please fill in all fields ", Toast.LENGTH_SHORT).show();  // if so show them an error message
         }
 
         // Sign in using Firebase Email/Password

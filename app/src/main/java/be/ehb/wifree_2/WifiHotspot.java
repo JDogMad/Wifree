@@ -3,8 +3,9 @@ package be.ehb.wifree_2;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true) // ignore all the rest of properties of the api
 public class WifiHotspot {
+    // WifiHotspot attributes
     @JsonProperty("datasetid")
     private String datasetId;
     @JsonProperty("recordid")
@@ -14,9 +15,10 @@ public class WifiHotspot {
     @JsonProperty("geometry")
     private HotspotGeometry hotspotGeometry;
 
-
+    // WifiHotspot constructor
     public WifiHotspot() {}
 
+    // WifiHotspot getters and setters
     public HotspotFields getHotspotFields() {
         return hotspotFields;
     }
@@ -41,8 +43,9 @@ public class WifiHotspot {
         this.datasetId = datasetId;
     }
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonIgnoreProperties(ignoreUnknown = true)  // ignore all the rest of properties of the api
     public static class HotspotFields {
+        // HotspotFields attributes
         @JsonProperty("longitude")
         private String longitude;
         @JsonProperty("latitude")
@@ -52,7 +55,7 @@ public class WifiHotspot {
         @JsonProperty("nom_site_nl")
         private String naam;
 
-        //getters and setters
+        // HotspotFields getters and setters
         public String getLongitude() {
             return longitude;
         }
@@ -86,11 +89,13 @@ public class WifiHotspot {
     }
 
     public static class HotspotGeometry{
+        // HotspotGeometry attributes
         @JsonProperty("type")
         private String type;
         @JsonProperty("coordinates")
         private double[] coordinates;
 
+        // HotspotGeometry getters and setters
         public String getType() {
             return type;
         }

@@ -5,14 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true) // ignore all the rest of properties of the api
 public class WifiHotspots {
+    // WifiHotspots attributes
     private int nhits;
     private Parameters parameters;
     private List<WifiHotspot> records;
 
+    // WifiHotspots constructor
     public WifiHotspots() {}
 
+    // WifiHotspots getters and setters
     public int getNhits() {
         return nhits;
     }
@@ -38,15 +41,15 @@ public class WifiHotspots {
     }
 
     public static class Parameters {
-        private String dataset;
-        private int rows;
-        private int start;
+        // Parameters attributes
+        private String dataset, format, timezone;
+        private int rows, start;
         private String[] facet;
-        private String format;
-        private String timezone;
 
+        // Parameters construtor
         public Parameters() {}
 
+        // Parameters getters and setters
         public String getDataset() {
             return dataset;
         }

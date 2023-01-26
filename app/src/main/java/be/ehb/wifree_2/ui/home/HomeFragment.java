@@ -49,58 +49,59 @@ import java.util.Map;
 import java.util.Objects;
 
 public class HomeFragment extends Fragment {
-    public FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public FirebaseFirestore db = FirebaseFirestore.getInstance(); // initializing instance of Firebase Firestore
 
     private FragmentHomeBinding binding;
     private GoogleMap map;
     private FirebaseAuth mAuth;
 
     TextView txt_username;
-    Button btn_logout;
 
     private OnMapReadyCallback onMapReadyCallback = new OnMapReadyCallback() {
         @Override
         public void onMapReady(@NonNull GoogleMap googleMap) {
             map = googleMap;
 
-            drawAnnotations();
-            fetchMarkers();
+            drawAnnotations(); // draws the markers that users have made
+            fetchMarkers(); // draws the markers from the OpenData Brussels api
         }
     };
 
+    // Method to get the annotations made by the users stored in Firebase
     private void drawAnnotations() {
+        // get all the places from the database
         db.collection("Places").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
+                if (task.isSuccessful()) { // task is successful
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Map<String, Object> data = document.getData();
-                        WifiPlace place = new WifiPlace();
-                        // Set the fields for the Post object
-                        place.setTitle((String) data.get("title"));
-                        place.setDescription((String) data.get("description"));
+                        WifiPlace place = new WifiPlace(); // new wifiplace
+                        // set all the attributes of the new wifiplace
+                        place.setTitle((String) data.get("title")); // set the title -> with the title from the database
+                        place.setDescription((String) data.get("description")); // set the description -> with the description from the database
 
-                        // Check if there is a location in post => avoids errors
-                        if (data.containsKey("location")) {
-                            // Deserialize the JSON object stored in the "location" field
-                            ObjectMapper mapper = new ObjectMapper();
+                        if (data.containsKey("location")) { // checks if location field exists in the document data
+                            ObjectMapper mapper = new ObjectMapper(); // new mapper (part of Jackson library)
                             String locationJson = null;
                             try {
-                                locationJson = mapper.writeValueAsString(data.get("location"));
-                            } catch (JsonProcessingException e) {
+                                locationJson = mapper.writeValueAsString(data.get("location")); // convert map location to JSON string
+                            } catch (JsonProcessingException e) { // catches any errors
                                 e.printStackTrace();
                             }
+
                             JsonParser parser = null;
                             try {
-                                parser = mapper.getFactory().createParser(locationJson);
-                            } catch (IOException e) {
+                                parser = mapper.getFactory().createParser(locationJson); // parses the locationJson
+                            } catch (IOException e) { // catches any errors
                                 e.printStackTrace();
                             }
-                            LatLngDeserializer latLngDeserializer = new LatLngDeserializer();
+
+                            LatLngDeserializer latLngDeserializer = new LatLngDeserializer(); // new deserializer (custom class)
                             LatLng location = null;
                             try {
-                                location = latLngDeserializer.deserialize(parser, null);
-                            } catch (IOException e) {
+                                location = latLngDeserializer.deserialize(parser, null); // deserialize the location so I can get the latitude and longitude
+                            } catch (IOException e) { // catches any errors
                                 e.printStackTrace();
                             }
 
@@ -111,20 +112,21 @@ public class HomeFragment extends Fragment {
                             map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10));
                         }
                     }
-                } else {
+                } else { // logs error
                     Log.d(TAG, Objects.requireNonNull(task.getException()).getMessage());
                 }
             }
         });
     }
 
+    // Method to get the annotations from the OpenData Brussels api
     private void fetchMarkers(){
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
+        OkHttpClient client = new OkHttpClient(); // new Client -> handles the HTTP request
+        Request request = new Request.Builder() // new request builder -> on basis of the url -> build
                 .url("https://opendata.brussels.be/api/records/1.0/search/?dataset=wifi&rows=10&facet=latitude&facet=longitude")
                 .build();
 
-        client.newCall(request).enqueue(new Callback() {
+        client.newCall(request).enqueue(new Callback() { // new call of the request
             @Override
             public void onFailure(Call call, IOException e) {
                 // Handle failure
@@ -132,20 +134,20 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                String responseString = response.body().string();
-                ObjectMapper mapper = new ObjectMapper();
-                WifiHotspots wifiHotspots = mapper.readValue(responseString, WifiHotspots.class);
+                String responseString = response.body().string(); // converts the request body
+                ObjectMapper mapper = new ObjectMapper(); // new mapper (part of Jackson library)
+                WifiHotspots wifiHotspots = mapper.readValue(responseString, WifiHotspots.class); // deserializes the response to a wifiHotspot
 
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        // Code to add markers to the map here
-                        List<WifiHotspot> hotspots = wifiHotspots.getRecords();
-                        for(WifiHotspot hotspot: hotspots){
-                            double latitude = Double.parseDouble(hotspot.getHotspotFields().getLatitude());
-                            double longitude = Double.parseDouble(hotspot.getHotspotFields().getLongitude());
-                            LatLng location = new LatLng(latitude, longitude);
+                        List<WifiHotspot> hotspots = wifiHotspots.getRecords(); // new list where you add the hotspots
+                        for(WifiHotspot hotspot: hotspots){ // loop trough the hotspots
+                            double latitude = Double.parseDouble(hotspot.getHotspotFields().getLatitude()); // get the latitude
+                            double longitude = Double.parseDouble(hotspot.getHotspotFields().getLongitude()); // get the longitude
+                            LatLng location = new LatLng(latitude, longitude); // new LatLng object
 
+                            // Add a marker to the map using the deserialized LatLng object
                             MarkerOptions markerOptions = new MarkerOptions()
                                     .position(location)
                                     .title(hotspot.getHotspotFields().getNaam())
@@ -161,8 +163,10 @@ public class HomeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //binding with Home layout
         binding = FragmentHomeBinding.inflate(inflater, container, false);
-        // Last check to make sure that user is logged in
+
+        // check to make sure that user is logged in
         mAuth = FirebaseAuth.getInstance();
         if(mAuth.getCurrentUser() != null){
             // Redirect it to the Register activity
@@ -181,8 +185,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Als mijn scherm getekend is, ga kijken naar de view
-        // Dit gebeurd async, dus in de achtergrond
+        // get map async (background) and create
         binding.mapView2.getMapAsync(onMapReadyCallback);
         binding.mapView2.onCreate(savedInstanceState);
     }
@@ -193,14 +196,12 @@ public class HomeFragment extends Fragment {
         binding.mapView2.onPause();
     }
 
-    // Als je terug gaat naar de activiteit
     @Override
     public void onResume(){
         super.onResume();
         binding.mapView2.onResume();
     }
 
-    // Als ik klaar ben dan gebruik ik de ondestroy methode
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -209,21 +210,21 @@ public class HomeFragment extends Fragment {
     }
 
     public void getUserUsername(TextView txt_greeting){
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseDatabase database = new FirebaseDatabase();
-        Task<User> userTask = database.getUserFromDbByUidTask(mAuth.getUid());
-        userTask.addOnCompleteListener(new OnCompleteListener<User>() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance(); // initializing instance of Firebase Firestore
+        FirebaseDatabase database = new FirebaseDatabase(); // new FirebaseDatabase
+
+        Task<User> userTask = database.getUserFromDbByUidTask(mAuth.getUid()); // get current user
+        userTask.addOnCompleteListener(new OnCompleteListener<User>() { // when user is fetched
             @Override
             public void onComplete(@NonNull Task<User> task) {
-                if (task.isSuccessful()) {
+                if (task.isSuccessful()) { // checks if the task is successful
                     User user = task.getResult();
-                    if(user != null){
-                        txt_greeting.setText("Hi " + user.getUsername());
+                    if(user != null){ // user must not be null
+                        txt_greeting.setText("Hi " + user.getUsername()); // displays greeting
                     } else {
                         System.out.println("User is null");
                     }
-                } else {
-                    // TODO: Error handling
+                } else { // error handling
                     System.out.println("error");
                 }
             }

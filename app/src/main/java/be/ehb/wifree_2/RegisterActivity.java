@@ -65,20 +65,20 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void registration(){
-        // Search the activity for the three textfields
+        // Search the activity for the three text-fields
         txt_email = findViewById(R.id.txt_email);
         txt_password = findViewById(R.id.txt_password);
         txt_username = findViewById(R.id.txt_username);
 
+        // get the text of the text-fields
         email = txt_email.getText().toString();
         password = txt_password.getText().toString();
         username = txt_username.getText().toString();
 
         data = new FirebaseDatabase();
         // Check to see if any field is left open
-        // if so show them an error message
         if(email.isEmpty() || password.isEmpty() || username.isEmpty()){
-            Toast.makeText(this, "Please fill in all fields ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please fill in all fields ", Toast.LENGTH_SHORT).show(); // if so show them an error message
         }
 
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

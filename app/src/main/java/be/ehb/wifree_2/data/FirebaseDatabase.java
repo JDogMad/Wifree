@@ -20,22 +20,25 @@ import be.ehb.wifree_2.User;
 import be.ehb.wifree_2.WifiPlace;
 
 public class FirebaseDatabase {
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseFirestore db = FirebaseFirestore.getInstance(); // initializing instance of Firebase Firestore
 
     public FirebaseDatabase() {}
 
+    // method to add a user in the database
     public Task<Void> add(User user){
         return db.collection("Users").document(user.getUid()).set(user);
     }
 
+    // method to add a marker in the database
     public Task<Void> addMarker(WifiPlace place){
         return db.collection("Places").document().set(place);
     }
 
+    // method to count to users in the database and return it back
     public MutableLiveData<Integer> getUserCount() {
-        MutableLiveData<Integer> count = new MutableLiveData<Integer>();
-        CollectionReference collectionReference = db.collection("Users");
-        AggregateQuery countQuery = collectionReference.count();
+        MutableLiveData<Integer> count = new MutableLiveData<Integer>(); // new list
+        CollectionReference collectionReference = db.collection("Users"); // get all users
+        AggregateQuery countQuery = collectionReference.count(); // counting the users
         countQuery.get(AggregateSource.SERVER).addOnCompleteListener(new OnCompleteListener<AggregateQuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<AggregateQuerySnapshot> task) {
@@ -43,31 +46,22 @@ public class FirebaseDatabase {
                 count.setValue((int) snapshot.getCount());
             }
         });
-        return count;
+        return count; // return the amount of users as a integer
     }
 
-    public MutableLiveData<User> getUserFromDbByUid(String uid){
-        MutableLiveData<User> user = new MutableLiveData<>();
-        DocumentReference documentReference = db.collection("Users").document(uid);
-        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                user.setValue(documentSnapshot.toObject(User.class));
-            }
-        });
-        return user;
-    }
-
+    // method that gets user by uuid (string)
     public Task<User> getUserFromDbByUidTask(String uid) {
+        // gets the user by a uid -> which is given by us
         return db.collection("Users").document(uid).get().continueWith(new Continuation<DocumentSnapshot, User>() {
             @Override
             public User then(@NonNull Task<DocumentSnapshot> task) throws Exception {
-                if (!task.isSuccessful()) {
-                    throw task.getException();
+                if (!task.isSuccessful()) { // checks if task is successful -> not than error
+                    throw task.getException(); // throws exception
                 }
+
                 DocumentSnapshot document = task.getResult();
                 User user = document.toObject(User.class);
-                return user;
+                return user; // returns the user that matches the uid
             }
         });
     }

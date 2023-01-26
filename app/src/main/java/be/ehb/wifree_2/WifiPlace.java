@@ -3,9 +3,11 @@ package be.ehb.wifree_2;
 import com.google.android.gms.maps.model.LatLng;
 
 public class WifiPlace {
+    // WifiPlace attributes
     private String title, description;
     private LatLng location;
 
+    // WifiPlace constructors
     public WifiPlace() {}
 
     public WifiPlace(String title, String description, LatLng location) {
@@ -14,6 +16,7 @@ public class WifiPlace {
         this.location = location;
     }
 
+    // WifiPlace getters and setters
     public String getTitle() {
         return title;
     }

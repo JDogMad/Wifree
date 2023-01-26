@@ -1,8 +1,10 @@
 package be.ehb.wifree_2;
 
 public class User {
+    // User attributes
     private String username, email, uid;
 
+    // User constructors
     public User() {}
 
     public User(String username, String email, String uid) {
@@ -12,6 +14,7 @@ public class User {
     }
 
 
+    // User getters and setters
     public String getUsername() {
         return username;
     }
@@ -36,6 +39,7 @@ public class User {
         this.uid = uid;
     }
 
+    // User to string
     @Override
     public String toString() {
         return "User{" +

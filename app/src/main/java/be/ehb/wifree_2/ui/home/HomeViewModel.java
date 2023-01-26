@@ -23,7 +23,7 @@ import be.ehb.wifree_2.WifiPlace;
 
 public class HomeViewModel extends AndroidViewModel {
 
-    public FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public FirebaseFirestore db = FirebaseFirestore.getInstance(); // initializing instance of Firebase Firestore
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
@@ -35,38 +35,40 @@ public class HomeViewModel extends AndroidViewModel {
         placesRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                List<WifiPlace> postList = new ArrayList<>();
+                List<WifiPlace> wifiPlaces = new ArrayList<>(); // new arraylist
                 for (DocumentSnapshot documentSnapshot: queryDocumentSnapshots.getDocuments()) {
                     Map<String, Object> data = documentSnapshot.getData();
-                    WifiPlace place = new WifiPlace();
-                    place.setTitle((String) data.get("title"));
-                    place.setDescription((String) data.get("description"));
+                    WifiPlace place = new WifiPlace(); // new wifiplace
+                    // set all the attributes of the new wifiplace
+                    place.setTitle((String) data.get("title")); // set the title -> with the title from the database
+                    place.setDescription((String) data.get("description")); // set the description -> with the description from the database
 
-                    Object locationData = data.get("location");
-                    if (locationData != null) {
-                        ObjectMapper mapper = new ObjectMapper();
+                    Object locationData = data.get("location"); // get the location from the database
+                    if (locationData != null) { // locationData can't be null
+                        ObjectMapper mapper = new ObjectMapper(); // new mapper (part of Jackson library)
                         Map<String, Object> locationMap = (Map<String, Object>) data.get("location");
                         String locationJson = null;
                         try {
-                            locationJson = mapper.writeValueAsString(locationMap);
+                            locationJson = mapper.writeValueAsString(locationMap); // convert map location to JSON string
                         } catch (JsonProcessingException e) {
                             e.printStackTrace();
                         }
+
                         LatLng location = null;
                         try {
-                            location = mapper.readValue(locationJson, LatLng.class);
+                            location = mapper.readValue(locationJson, LatLng.class); // sets the location to the LatLng object
                         } catch (JsonProcessingException e) {
                             e.printStackTrace();
                         }
-                        place.setLocation(location);
+                        place.setLocation(location); // sets the attribute of place loaction to the new location that we got
                     }
 
-                    postList.add(place);
+                    wifiPlaces.add(place); // adds it to the arraylist
                 }
-                places.setValue(postList);
+                places.setValue(wifiPlaces); // adds it to the MutableLiveData
             }
         });
-        return places;
+        return places; // returns it
     }
 
 }
