@@ -52,13 +52,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.85" />
+        app:layout_constraintGuide_percent="0.8508892" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rc_places"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_height="550dp"
+        app:layout_constraintBottom_toTopOf="@+id/img_helper_3"
         app:layout_constraintEnd_toStartOf="@+id/img_helper_2"
         app:layout_constraintStart_toStartOf="@+id/img_helper_1"
         app:layout_constraintTop_toBottomOf="@+id/app_new_marker_sub"
